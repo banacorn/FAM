@@ -1,0 +1,6 @@
+name: FAM-test
+depend:
+    standard-library
+include:
+    .
+    ../src
