@@ -11,8 +11,8 @@ record IsFunctor {ℓ} (F : Set ℓ → Set ℓ)
                  (_<$>_ : ∀ {A B} → (A → B) → F A → F B)
                  : Set (suc ℓ) where
     field
-        identity : ∀ {A} {a : F A} → id <$> a ≡ a
-        homo : ∀ {A B C} {f : B → C} {g : A → B} {a : F A}
+        identity : {A : Set ℓ} (a : F A) → id <$> a ≡ a
+        homo : ∀ {A B C} {f : B → C} {g : A → B} (a : F A)
              → (f ∘ g) <$> a ≡ f <$> (g <$> a)
 
 record Functor {ℓ} (F : Set ℓ → Set ℓ) : Set (suc ℓ) where

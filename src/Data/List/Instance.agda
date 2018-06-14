@@ -9,7 +9,7 @@ instance
     ListFunctor = record
         { _<$>_ = map
         ; isFunctor = record
-            { identity = map-id _
-            ; homo = map-compose _
+            { identity = map-id
+            ; homo = map-compose
             }
         }
