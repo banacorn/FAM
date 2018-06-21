@@ -63,7 +63,6 @@ record Applicative {ℓ} (F : Set ℓ → Set ℓ) : Set (suc ℓ) where
 
     open IsApplicative isApplicative public
 
-
     _<⊛_ : ∀ {A B} → F A → F B → F A
     x <⊛ y = x
 
@@ -96,7 +95,7 @@ record Applicative {ℓ} (F : Set ℓ → Set ℓ) : Set (suc ℓ) where
         ApplicativeFunctor = functor
 
     open import Data.Product
-    open Functor {{...}} 
+    open Functor {{...}}
 
 
     _⊗_ : ∀ {A B} → F A → F B → F (A × B)
