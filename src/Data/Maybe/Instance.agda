@@ -19,10 +19,10 @@ instance
             identity (just x) = refl
             identity nothing = refl
 
-            homo : ∀ {A B C : Set ℓ} {f : B → C} {g : A → B}
+            homo : ∀ {A B C : Set ℓ} (f : B → C) (g : A → B)
                 (a : Maybe A) → map (f ∘ g) a ≡ map f (map g a)
-            homo (just x) = refl
-            homo nothing = refl
+            homo _ _ (just x) = refl
+            homo _ _ nothing = refl
 
     MaybeApplicative : ∀ {ℓ} → Applicative {ℓ} Maybe
     MaybeApplicative {ℓ} = record
@@ -30,9 +30,9 @@ instance
         ; _⊛_ = ap
         ; isApplicative = record
             { identity = identity
-            ; compose = λ {A} {B} {C} {fs} {gs} xs → compose {A} {B} {C} {fs} {gs} xs
-            ; homo = λ x → refl
-            ; interchange = λ {A} {B} {fs} x → interchange {A} {B} {fs} x
+            ; compose = compose
+            ; homo = λ _ _ → refl
+            ; interchange = interchange
             }
         }
         where
@@ -47,19 +47,19 @@ instance
             identity (just x) = refl
             identity nothing = refl
 
-            compose : {A B C : Set ℓ} {fs : Maybe (B → C)} {gs : Maybe (A → B)}
+            compose : {A B C : Set ℓ} (fs : Maybe (B → C)) (gs : Maybe (A → B))
                 → (xs : Maybe A)
                 → ap (ap (map _∘′_ fs) gs) xs ≡ ap fs (ap gs xs)
-            compose {A} {B} {C} {just fs} {just gs} (just xs) = refl
-            compose {A} {B} {C} {just fs} {just gs} nothing   = refl
-            compose {A} {B} {C} {just fs} {nothing} (just xs) = refl
-            compose {A} {B} {C} {just fs} {nothing} nothing   = refl
-            compose {A} {B} {C} {nothing} {just gs} (just xs) = refl
-            compose {A} {B} {C} {nothing} {just gs} nothing   = refl
-            compose {A} {B} {C} {nothing} {nothing} (just xs) = refl
-            compose {A} {B} {C} {nothing} {nothing} nothing   = refl
+            compose {A} {B} {C} (just fs) (just gs) (just xs) = refl
+            compose {A} {B} {C} (just fs) (just gs) nothing   = refl
+            compose {A} {B} {C} (just fs) nothing   (just xs) = refl
+            compose {A} {B} {C} (just fs) nothing   nothing   = refl
+            compose {A} {B} {C} nothing   (just gs) (just xs) = refl
+            compose {A} {B} {C} nothing   (just gs) nothing   = refl
+            compose {A} {B} {C} nothing   nothing   (just xs) = refl
+            compose {A} {B} {C} nothing   nothing   nothing   = refl
 
 
-            interchange : {A B : Set ℓ} {fs : Maybe (A → B)} (x : A) → ap fs (just x) ≡ ap (just (λ f → f x)) fs
-            interchange {A} {B} {just f} x = refl
-            interchange {A} {B} {nothing} x = refl
+            interchange : {A B : Set ℓ} (fs : Maybe (A → B)) (x : A) → ap fs (just x) ≡ ap (just (λ f → f x)) fs
+            interchange {A} {B} (just f) x = refl
+            interchange {A} {B} nothing x = refl

@@ -12,7 +12,7 @@ instance
         { _<$>_ = map
         ; isFunctor = record
             { identity = map-id
-            ; homo = map-compose
+            ; homo = λ f g a → map-compose a
             }
         }
     ListApplicative : ∀ {ℓ} → Applicative {ℓ} List
@@ -27,9 +27,9 @@ instance
                 ≡⟨ map-id xs ⟩
                     xs
                 ∎
-            ; compose = λ {A} {B} {C} {fs} {gs} xs → compose {A} {B} {C} fs gs xs
-            ; homo = λ {A} {B} {f} x → refl
-            ; interchange = λ {A} {B} {fs} x → interchange fs x
+            ; compose = compose
+            ; homo = λ _ _ → refl
+            ; interchange = interchange
             }
         }
         where
